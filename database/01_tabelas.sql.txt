@@ -1,0 +1,41 @@
+create table clientes (
+    id_cliente serial primary key,
+    nome varchar(100) not null,
+    cidade varchar(100) not null,
+    estado varchar(2) not null
+);
+
+create table produtos (
+    id_produto serial primary key,
+    nome varchar(100) not null,
+    categoria varchar(50) not null,
+    preco numeric(10,2) not null,
+    estoque int not null
+);
+
+create table vendas (
+    id_venda serial primary key,
+    id_cliente int not null,
+    data_venda date not null,
+    valor_total numeric(10,2) not null,
+
+    constraint fk_venda_cliente
+        foreign key (id_cliente)
+        references clientes(id_cliente)
+);
+
+create table itens_venda (
+    id_item serial primary key,
+    id_venda int not null,
+    id_produto int not null,
+    quantidade int not null,
+    preco_unitario numeric(10,2) not null,
+
+    constraint fk_item_venda
+        foreign key (id_venda)
+        references vendas(id_venda),
+
+    constraint fk_item_produto
+        foreign key (id_produto)
+        references produtos(id_produto)
+);
